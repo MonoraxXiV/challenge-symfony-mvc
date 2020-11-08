@@ -40,12 +40,12 @@ class LearningController extends AbstractController
      */
 
 
-    public function showMyName(){
+    public function changeMyName(){
 
-        if (isset($_POST['name'])){
-            var_dump($_POST['name']);
-            $this->name = $this->session->get('name');
-            return $this->render('learning/changeName.html.twig', ['name' => $this->name]);
+        if (isset($_GET['name'])){
+            var_dump($_GET['name']);
+            $name=$_GET['name'];
+            return $this->render('learning/changeName.html.twig', ['name' => $_GET['name']]);
 
         }
         else {
@@ -53,18 +53,12 @@ class LearningController extends AbstractController
         }
 
     }
-/*
-    public function showMyName(): response
+
+
+
+    public function showMyName()
     {
-        return $this->render('learning/showName.html.twig', ['name' => 'unknown']);
-
-
-
-    }
-*/
-    public function changeMyName()
-    {
-        $this->session->set('name', $_POST['name']);
+        $this->session->set('name', $_GET['name']);
         return $this->redirectToRoute('showname');
     }
 
