@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class LearningController extends AbstractController
 {
-    private  $session;
+    private $session;
     private string $name;
 
 
@@ -28,41 +28,52 @@ class LearningController extends AbstractController
         ]);
     }
 
-
+    /**
+     * @Route("/about-becode", name="about")
+     */
 
     public function aboutMe(): Response
     {
-       return $this->render('learning/aboutme.html.twig', ['name' => 'BeCode']);
+        $sessionName = $this->session->get('sessionName', 'unknown');
+        if ($sessionName=='unknown'){
+            return $this->forward('App\Controller\LearningController::showMyName');
+        }else {
+            return $this->render('learning/aboutme.html.twig', ['name' => $sessionName]);
+        }
+    }
+
+
+    /**
+     * @Route("/changemyname", name="changeName")
+     */
+    public function changeMyName()
+    {
+
+        $sessionName = $this->session->get('sessionName', 'unknown');
+        return $this->render('learning/changeName.html.twig', ['name' => $sessionName]);
+
+
     }
 
     /**
-     * @Route("/", name="showname")
+     * @Route("/", name="home")
      */
-
-
-    public function changeMyName(){
-
-        if (isset($_GET['name'])){
-            var_dump($_GET['name']);
-            $name=$_GET['name'];
-            return $this->render('learning/changeName.html.twig', ['name' => $_GET['name']]);
-
-        }
-        else {
-            return $this->render('learning/showName.html.twig', ['name' => 'unknown']);
-        }
-
-    }
-
-
 
     public function showMyName()
     {
-        $this->session->set('name', $_GET['name']);
-        return $this->redirectToRoute('showname');
+
+
+        if (isset($_POST['name'])) {
+            $this->session->set('sessionName', $_POST['name']);
+            return $this->redirectToRoute('changeName');
+        }
+        $sessionName = $this->session->get('sessionName', 'unknown');
+        if (isset($sessionName)) {
+            var_dump($sessionName);
+            return $this->render('learning/showName.html.twig', ['name' => $sessionName]);
+
+        }
     }
-
-
 
 
 }
