@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LearningController!{% endblock %}
+{% block title %}Hello showMyName!{% endblock %}
 
 {% block body %}
     <style>
@@ -12,9 +12,12 @@
         <h1>Hello {{ name }}! ✅</h1>
 
     </div>
-    <form method="post">
+    <form method="get">
         <label for="name">Please insert name:</label>
         <input type="text" id="name" name="name">
         <input type="submit" value="Submit">
     </form>
+
+    <p><a href={{ path('about') }}>about me</a></p>
+
 {% endblock %}
